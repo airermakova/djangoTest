@@ -1,0 +1,32 @@
+<!-- howdy/templates/index.html -->
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Factorial Count</title>
+    </head>
+    <style> 
+        body {
+          background-color: #cccccc;
+        }
+    </style>
+    <body>
+        <h1>Factorial count</h1>
+        <form method="post" action="{% url 'count_fact' %}">
+          {% csrf_token %}
+          <br>
+          <label for="factorial" style="color:blue;background-color: powderblue;font-size: 18px;" >Count factorial of </label>
+          <input type="text" name="factorial" placeholder="factorial">
+          <br>
+          <br>
+          <label for="result" style="color:blue;background-color: powderblue;font-size: 18px;" method="post" novalidate>
+          {% csrf_token %}{{ resString }}
+          </label>          
+          <br>
+          <br>
+          <input type="submit" name="run_script" value="Count">
+        </form>
+        
+        
+    </body>
+</html>
