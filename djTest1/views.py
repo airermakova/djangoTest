@@ -17,8 +17,7 @@ import threading
 import sys
 sys.path.append("djTest1")
 from apps import getfactorial
-from apps_1 import submit
-import apps_1 as app1
+
 
 
 # Create your views here.
@@ -40,7 +39,7 @@ class HomePageView(TemplateView):
         HomePageView.manager = Queue() 
         HomePageView.event = Event()        
  
- 
+    #function to display result of factorial calculations
     def getAA(event, request, queue):
         event.wait() 
         finalText = queue.get()    
@@ -52,8 +51,11 @@ class HomePageView(TemplateView):
         'resString': text
         }
         print(text)
-        return HttpResponse('Hello World', content_type="text/plain")#render(request, 'index.html', context)
-    
+        return render(request, 'index.html', context)
+    #function to perform following actions
+    #check if current web page already counting more than 5 factorials
+    #start new process for factorial counts
+    #show on web view message that factorial is counting
     def count_fact(request):
         if len(request.POST['factorial'])<=0:
             return render(request, 'index.html', context = None)
@@ -71,9 +73,6 @@ class HomePageView(TemplateView):
             HomePageView.finalText.append("Counting factorial of " + request.POST['factorial'])
             p = Process(target=getfactorial, args=(HomePageView.event, HomePageView.manager, resg,HomePageView.finalText,(len(HomePageView.finalText)-1)))
             p.start() 
-            #app1.obj = request            
-            #p1 = Process(target=submit, args=(HomePageView.event, HomePageView.manager))
-            #p1.start()  
             th = threading.Thread(target=HomePageView.getAA, args=(HomePageView.event,request,HomePageView.manager))
             th.start()
             #getfactorial.delay(resg, HomePageView.finalText, len(HomePageView.finalText)-1)

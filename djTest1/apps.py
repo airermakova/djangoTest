@@ -9,7 +9,7 @@ import signal
 from signal import signal, SIGINT, SIGTERM, SIGABRT
 import time
 
-
+#function to count factorial and set an event when counts has been completed.
 @task(name="getfactorial")    
 def getfactorial(event, queue, data, strArray, strNum):  
     event.clear()  
